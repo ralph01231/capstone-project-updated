@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 
+
 class AuthController extends Controller
 {
     public function registerpage()
@@ -29,12 +30,12 @@ class AuthController extends Controller
             // @enderror
 
         $rules = [
-            'name' => 'required|string|max:100',
+            'responder_name' => 'required|string|max:100',
             'email' => 'required|email|max:75|unique:users,email',
-            'usertype' => 'required|string|max:100',
+            'userfrom' => 'required|string|max:100',
             'password' => [
                 'required',
-                'string',
+                'string','confirmed',
                 Password::min(8)->letters()->numbers()->mixedCase()->symbols()
             ],
             
@@ -43,37 +44,29 @@ class AuthController extends Controller
         //first we write logic for registration
         //we need some hash token for verification
         $token = hash('sha256', time()); //we use time function to generate random string and sha256 is a hashing algorithm
-       
 
 
         $user = new User();
       
-        $user->name = $request->name;
-        $user->usertype = $request->usertype;
+        $user->responder_name = $request->responder_name;
+        $user->userfrom = $request->userfrom;
         $user->email = $request->email;
         $user->password = Hash::make($request->password); // we need to hash the password first
         $user->token = $token;
-       
-       if($user->usertype == 'admin'){
-           $user->role = '1';
-       }
-       else{
-            $user->role = '0';
-       }
+        $user->role = 'Super Admin';
+   
 
-        
         //i don't work with validation in this video
         //you can use validation and also confirm_password to match both password
         $user->save();
 
         //here we work on mail part logic
         //now we create a verification link
-
         //=================================
         $verificationLink = url('/verify/' . $token . '/' . $request->email . '/');
         $mailSubject = 'E-Ligtas Email Verification';
         $userData = [
-            'name' => $request->name,
+            'responder_name' => $request->responder_name,
             'email' => $request->email,
             'link' => $verificationLink
         ];
@@ -94,7 +87,7 @@ class AuthController extends Controller
         }
         //else user found
         else {
-            $user->token = ''; //empty user token
+            $user->token = ' '; //empty user token
             $user->status = 'active';
             $user->update();
         }
@@ -120,17 +113,13 @@ class AuthController extends Controller
                 
             ];
 
-            
-            
-
             if (Auth::attempt($credentials)) {
                 $user = Auth::user();
-               
+
                 if ($user->status == 'active')
                 {
-
-                    if($user->role == '1'){
-                        return redirect()->intended('admin/dashboard');
+                    if($user->role == 'Super Admin'){
+                        return redirect()->intended('admin/dashboard')->with('success','Log  in Successful. Welcome Back admin');
                     }
                     else
                     {
@@ -139,26 +128,19 @@ class AuthController extends Controller
                 }
                 else{
                     Auth::logout();
-
-                    return redirect()->route('login')->with('success','Your email was not verified');
-                }
-                   
-                  
+                    return redirect()->route('login')->with('error-msg','Your email was not verified');
+                }    
             }
             else {
 
-               return redirect()->route('login')->with('success','Login Failed. Please check your Email & Password.');
+               return redirect()->route('login')->with('error-msg','Login Failed. Please check your Email & Password.');
             }
     }
-
         public function destroy(Request $request): RedirectResponse
         {
             Auth::guard('web')->logout();
-
             $request->session()->invalidate();
-
             $request->session()->regenerateToken();
-
             return redirect('/login');
         }
 }

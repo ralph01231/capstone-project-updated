@@ -2,167 +2,276 @@
 
 
 @section('header')
-
-@section('title')  @endsection
-
+    @section('title')
+      Admin | Dashboard
+    @endsection
+      
 @endsection
 
 @section('content')
-
-
-    <div class="d-flex" id="wrapper">
-        <!-- Sidebar -->
-        @include('layouts.admin_sidebar')
-        
-        <!-- /#sidebar-wrapper -->
-
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-         @include('layouts.admin_nav')
-            
-
-            <div class="container-fluid px-4">
-                <div class="row g-3 my-2">
-                    <div class="col-md-3">
-                        <div class="p-3 bg-danger  shadow-lg d-flex justify-content-around align-items-center rounded">
-                            <div>
-                                <h3 class="fs-2">720</h3>
-                                <p class="fs-5">FIRE</p>
-                            </div>
-                            <i class="fas fa-gift fs-1 primary-text border rounded-full secondary-bg p-3"></i>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="p-3 bg-info shadow-sm d-flex justify-content-around align-items-center rounded">
-                            <div>
-                                <h3 class="fs-2">4920</h3>
-                                <p class="fs-5">MEDIC</p>
-                            </div>
-                            <i
-                                class="fas fa-hand-holding-usd fs-1 primary-text border rounded-full secondary-bg p-3"></i>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="p-3 bg-primary  shadow-sm d-flex justify-content-around align-items-center rounded">
-                            <div>
-                                <h3 class="fs-2">3899</h3>
-                                <p class="fs-5">CRIMES</p>
-                            </div>
-                            <i class="fas fa-truck fs-1 primary-text border rounded-full secondary-bg p-3"></i>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="p-3 bg-warning shadow-sm d-flex justify-content-around align-items-center rounded">
-                            <div>
-                                <h3 class="fs-2">%25</h3>
-                                <p class="fs-5">ACCIDENTS</p>
-                            </div>
-                            <i class="fas fa-chart-line fs-1 primary-text border rounded-full secondary-bg p-3"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row my-5">
-                    <h3 class="fs-4 mb-3">Recent Orders</h3>
-                    <div class="col">
-                        <table class="table bg-white rounded shadow-sm  table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col" width="50">#</th>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Customer</th>
-                                    <th scope="col">Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Television</td>
-                                    <td>Jonny</td>
-                                    <td>$1200</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Laptop</td>
-                                    <td>Kenny</td>
-                                    <td>$750</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Cell Phone</td>
-                                    <td>Jenny</td>
-                                    <td>$600</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">4</th>
-                                    <td>Fridge</td>
-                                    <td>Killy</td>
-                                    <td>$300</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">5</th>
-                                    <td>Books</td>
-                                    <td>Filly</td>
-                                    <td>$120</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">6</th>
-                                    <td>Gold</td>
-                                    <td>Bumbo</td>
-                                    <td>$1800</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">7</th>
-                                    <td>Pen</td>
-                                    <td>Bilbo</td>
-                                    <td>$75</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">8</th>
-                                    <td>Notebook</td>
-                                    <td>Frodo</td>
-                                    <td>$36</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">9</th>
-                                    <td>Dress</td>
-                                    <td>Kimo</td>
-                                    <td>$255</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">10</th>
-                                    <td>Paint</td>
-                                    <td>Zico</td>
-                                    <td>$434</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">11</th>
-                                    <td>Carpet</td>
-                                    <td>Jeco</td>
-                                    <td>$1236</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">12</th>
-                                    <td>Food</td>
-                                    <td>Haso</td>
-                                    <td>$422</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- /#page-content-wrapper -->
-    </div>
-    @endsection
-
-    @section('footer')
     
-    @endsection
 
+<div class="wrapper">
+    
+    {{-- sidebar here --}}
+
+    @include('layouts.admin_sidebar')
+
+    <div class="main">
+        
+        @include('layouts.admin_nav')
+        {{-- navigation bar --}}
+
+        <main class="content px-3 py-2">
+            <div class="container-fluid">
+
+                <div class="my-3">
+                    <h4>Dashboard</h4>
+                </div>
+                <div class="row">
+                    {{-- Cards Here --}}
+                    <div class="col-12 col-md-6 d-flex">
+                        <div class="card flex-fill border-0">
+                            <div class="card-body py-4">
+                                <div class="d-flex align-items-start text-lg-center">
+                                    <div class="flex-grow-1">
+                                        <h4 class="mb-2">
+                                            {{ $totalMedic}}
+                                        </h4>
+                                        <p class="mb-2">
+                                            Medical Related
+                                        </p>
+                                        <div class="mb-0">
+                                            <span class="text-muted">
+                                                This Month
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 d-flex">
+                        <div class="card flex-fill border-0">
+                            <div class="card-body py-4">
+                                <div class="d-flex align-items-start text-lg-center">
+                                    <div class="flex-grow-1">
+                                        <h4 class="mb-2">
+                                            {{ $totalFire }}
+                                        </h4>
+                                        <p class="mb-2">
+                                            Fire
+                                        </p>
+                                        <div class="mb-0">
+                                            <span class="text-muted">
+                                                This Month
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    {{-- Cards Here --}}
+                    <div class="col-12 col-md-6 d-flex">
+                        <div class="card flex-fill border-0">
+                            <div class="card-body py-4">
+                                <div class="d-flex align-items-start text-lg-center">
+                                    <div class="flex-grow-1">
+                                        <h4 class="mb-2">
+                                            {{ $totalAccident }}
+                                        </h4>
+                                        <p class="mb-2">
+                                             Accidents
+                                        </p>
+                                        <div class="mb-0">
+                                            <span class="text-muted">
+                                                This Month
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 d-flex">
+                        <div class="card flex-fill border-0">
+                            <div class="card-body py-4">
+                                <div class="d-flex align-items-start text-lg-center ">
+                                    <div class="flex-grow-1 ">
+                                        <h4 class="mb-2">
+                                            {{ $totalCrime }}
+                                        </h4>
+                                        <p class="mb-2">
+                                            Crimes
+                                        </p>
+                                        <div class="mb-0">
+                                            <span class="text-muted">
+                                                Since Last Month
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    
+                    <div class="col">
+                        <div class="container">
+                            <div class="card">
+                                <div class="card-header">
+                                    <p>
+                                        <b> Bar Chart for the total number of Emergencies Per Barangay/Sectors</b>
+                                    </p>
+                                </div>
+                                <div class="card-body">
+                                        <canvas id="mychart2" style="width: 30px; height: 30px">
+                                            <p>Total Sum of Accepted Emergency Reports per Sectors and Barangay</p>
+                                        </canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="col">
+                        <div class="container">
+                            <div class="card">
+                                <div class="card-header">
+                                    <p>
+                                        <b> Bar Chart for the total number of Emergencies Per Barangay/Sectors</b>
+                                    </p>
+                                </div>
+                                <div class="card-body">
+                                        <canvas id="mychart">
+                                            <p>Total Sum of Accepted Emergency Reports per Sectors and Barangay</p>
+                                        </canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row text-muted">
+                    <div class="col-6 text-start">
+                        <p class="mb-0">
+                            <a href="#" class="text-muted">
+                                <strong>E-ligtas</strong>
+                            </a>
+                        </p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <a href="#" class="text-muted">Contact</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="text-muted">About Us</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="text-muted">Terms</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</div>
+
+@endsection
+
+@section('scripts')
+
+    @if (Session::has('success'))
+        <script>
+            toastr.options.closeButton = true;
+            toastr.options.closeDuration = 300;
+            toastr.options.progressBar = true;
+            toastr.success("{{Session::get('success')}}");
+        </script>
+    @endif
+
+<script>
+var ctx = document.getElementById('mychart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Medical', 'Crime', 'Accidents', 'Fire'],
+        datasets: [{
+            label: 'Dataset Label',
+            data: [{{ $totalMedic}}, {{ $totalCrime }}, {{ $totalAccident }}, {{ $totalFire }} ],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+
+
+<script>
+    var ctx = document.getElementById('mychart2').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Label 1', 'Label 2', 'Label 3'],
+            datasets: [{
+                label: 'Dataset Label',
+                data: [10, 20, 30],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+        
+    });
+    </script>
+
+@endsection

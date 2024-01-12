@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
@@ -27,35 +28,28 @@ class ProfileController extends Controller
 
     public function update(Request $request){
         
-
-        
         $id = Auth::user()->id;
-        $userdata = User::find($id);
+        $user = User::find($id);
+
         $request->validate([
-            'name' => 'string|max:255',
-            'email' => 'string|email|max:255|unique:users,email,' . $userdata->id,
-            'password' => [
+            'responder_name' => 'required|string|max:255',
+            'email' => [
+                'required',
                 'string',
-                Password::min(8)->letters()->numbers()->mixedCase()->symbols()
-            ], 
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($user->id), // Ignore the current user's email
+            ],
+            // Add more validation rules for other fields
         ]);
 
-        
-
-        
-        $userdata->name = $request->name;
-        $userdata->email = $request->email;
-        $userdata->password = Hash::make($request->password);
-        $userdata ->save();
-
-        // $user->update([
-        //     'name' => $request->input('name'),
-        //     'email' => $request->input('email'),
-        //     'password' => $request->input('password'),
-           
-        // ]);
-
-        return redirect()->back()->with('success-bt', 'successfully modified');
+        $user->update([
+            'responder_name' => $request->input('responder_name'),
+            'email' => $request->input('email'),
+            // Add more fields as needed
+        ]);
+        return redirect()->back()->with('success-bt', 'Profile updated successfully');
 
     }
+
 }

@@ -1,40 +1,36 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
-    <div class="d-flex align-items-center">
-        <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
-        <h2 class="fs-2 m-0">Profile</h2>
-    </div>
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-        aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar  navbar-expand px-3 border-bottom">
+    <button class="btn" id="sidebar-toggle" type="button">
         <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+    <h3 class="m-2">{{ auth()->user()->userfrom}}</h3>
+    <div class="navbar-collapse navbar">
+        <ul class="navbar-nav">
+            <p class="m-2">{{ auth()->user()->name}}</p>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
-                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-user me-2"></i>{{ Auth::user()->name }}
+                <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-0">
+                    @if (Auth::User()->userfrom === 'MDRRMO')
+                        <img src="{{ asset('images/medic.jpg') }}" class="avatar img-fluid rounded" alt="">
+                    @elseif ( Auth::User()->userfrom === 'PNP')
+                        <img src="{{ asset('images/police.png') }}" class="avatar img-fluid rounded" alt="">
+                    @elseif ( Auth::User()->userfrom === 'BFP')
+                        <img src="{{ asset('images/fireman.png') }}" class="avatar img-fluid rounded" alt="">
+                    @else
+                        <img src="{{ asset('images/normal_user.jpg') }}" class="avatar img-fluid rounded" alt="">
+                    @endif
+ 
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li>
-                        <a class="dropdown-item" href="{{ route('edit_profile')}}">
-                            Profile
-                        </a>
-                    </li>
-                    <li>
-                        <form action="{{ route('logout') }}" method="POST" class="d-flex" role="search">
-                            @csrf
+                <div class="dropdown-menu dropdown-menu-end">
+                    <a href="{{route('edit_profile')}}" class="dropdown-item">Profile</a>
+                    <a href="#" class="dropdown-item">Setting</a>
+                    <form action="{{ route('logout') }}" method="POST" class="d-flex" role="search">
+                        @csrf
 
-                            <a class="dropdown-item"
-                                onclick="event.preventDefault();
-                            this.closest('form').submit();"
-                                type="submit">Logout</a>
-                        </form>
-
-                    </li>
-                </ul>
+                        <a class="dropdown-item"
+                            onclick="event.preventDefault();
+                        this.closest('form').submit();"
+                            type="submit">Logout</a>
+                    </form>
+                </div>
             </li>
         </ul>
     </div>

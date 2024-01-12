@@ -13,18 +13,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('usertype');
-            $table->integer('role')->default('0');
-            $table->string('email')->unique();
+            $table->string('responder_name');
+            $table->string('userfrom');
+            $table->string('role')->default('Sector');
+            $table->string('email');
             // $table->timestamp('email_verified_at')->nullable();
             $table->enum('status' , ['pending' ,'active'])->default('pending');
             $table->string('token')->nullable();
-
             $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
         });
+
     }
 
     /**
