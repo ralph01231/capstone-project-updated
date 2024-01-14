@@ -52,7 +52,7 @@
                         <label for="chckbox">Remember me?</label>
                     </div>
                     <div>
-                        <a href="{{ route('forgotpassword') }}" class="text-indigo-800 font-semibold">Forgot password</a>
+                        <a href="{{ route('forgotpassword') }}" class="text-blue-500 hover:text-blue-700 font-semibold">Forgot password</a>
                     </div>
                 </div>
                 <!-- {{-- sign Up --}}
@@ -60,7 +60,7 @@
                     <p>Dont have acount yet? <a href=" {{ route('register') }}" class="text-indigo-800 font-semibold">Sign Up</a></p>
                 </div> -->
             </div>
-            <button type="submit" class="mt-4 w-full bg-gradient-to-tr from-indigo-600 to-indigo-600 text-indigo-100 py-2 rounded-md text-lg tracking-wide">Sign In</button>
+            <button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded tracking-wide w-full">SIGN IN</button>
         </div>
     </form>
 </div>

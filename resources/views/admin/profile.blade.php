@@ -81,7 +81,7 @@
                                     <div class="row mt-3">
                                         <div class="col-md-12 mb-2">
                                             <label class="labels" for="name">Name: </label>
-                                            <input name="responder_name" type="text" class="form-control"
+                                            <input name="responder_name" type="text" class="form-control @error('confirm_password') is-invalid @enderror"
                                                 placeholder="Change Name here"
                                                 value="{{ old('responder_name', auth()->user()->responder_name) }}">
 
@@ -92,12 +92,12 @@
                                                 @enderror
                                         </div>
                                         <div class="col-md-12 mb-2">
-                                            <label for="email" class="labels">Email: </label>
-                                            <input name="email" type="text" class="form-control"
-                                                placeholder="Change Email here"
-                                                value="{{ old('email', auth()->user()->email) }}" required>
+                                            <label for="username" class="labels">Username: </label>
+                                            <input name="username" type="text" class="form-control @error('username') is-invalid @enderror"
+                                                placeholder="Change Username here"
+                                                value="{{ old('username', auth()->user()->username) }}">
 
-                                                @error('email')
+                                                @error('username')
                                                     <div class="text-danger" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </div>
@@ -105,7 +105,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-5 text-center">
-                                        <button class="btn btn-primary profile-button" type="submit">Save</button>
+                                        <button class="btn btn-primary profile-button" type="submit"><i class="bi bi-save-fill"></i> SAVE</button>
                                     </div>
                                 </form>
                             </div>
@@ -145,7 +145,7 @@
 
                                                 <div class="col-md-12 mb-2">
                                                     <label for="current_password" class="labels">Current Pasword:  </label>
-                                                    <input id="current_password" type="password" name="current_password" class="form-control" placeholder="Enter Current Password">
+                                                    <input id="current_password" type="password" name="current_password" class="form-control @error('current_password') is-invalid @enderror" placeholder="Enter Current Password">
                                                         
                                                         @error('current_password')
                                                             <div class="text-danger" role="alert">
@@ -171,7 +171,7 @@
                                                 
                                                 <div class="col-md-12 mb-2">
                                                     <label for="password_confirmation" class="labels">Confirm Password:</label>
-                                                    <input type="password" id="password" name="password_confirmation" class="form-control @error('password') is-invalid @enderror" placeholder="Re-enter New Password">
+                                                    <input type="password" id="confirm_password" name="password_confirmation" class="form-control @error('confirm_password') is-invalid @enderror" placeholder="Re-enter New Password">
                                                     
                                                     @error('password_confirmation')
                                                         <div class="text-danger" role="alert">
@@ -181,7 +181,7 @@
                                                 </div>
                                         </div>
                                     <div class="mt-5 text-center"><button class="btn btn-primary profile-button"
-                                            type="submit">Save Password</button></div>
+                                            type="submit"><i class="bi bi-file-earmark-lock-fill"></i> SUBMIT</button></div>
                                     </div>
                                 </form>
                         </div>

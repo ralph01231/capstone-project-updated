@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class PasswordController extends Controller
 {
@@ -21,12 +22,21 @@ class PasswordController extends Controller
         }
 
         $request->validate([
-            'current_password' => 'required_with:password|string|min:8',
+            'current_password' => [
+                'required',
+                'string',
+                'min:8',
+                
+            ],
+
             'password' => [
                 'required',
                 'string', 'confirmed',
-                Password::min(8)->letters()->numbers()->mixedCase()->symbols()
+                Password::min(8)->letters()->numbers()->mixedCase()->symbols(),
+                Rule::notIn([$request->current_password])
             ],
+            'confirm_password' => 'required_with:password|string|min:8',
+
         ]);
 
         if ($request->filled('current_password')) {

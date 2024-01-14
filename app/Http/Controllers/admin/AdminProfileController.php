@@ -19,10 +19,6 @@ class AdminProfileController extends Controller
 
     }
 
-    
-
-
-
 
     public function updateInformation(Request $request){
         
@@ -31,10 +27,9 @@ class AdminProfileController extends Controller
 
         $request->validate([
             'responder_name' => 'required|string|max:255',
-            'email' => [
+            'username' => [
                 'required',
                 'string',
-                'email',
                 'max:255',
                 Rule::unique('users')->ignore($user->id), // Ignore the current user's email
             ],
@@ -43,7 +38,7 @@ class AdminProfileController extends Controller
 
         $user->update([
             'responder_name' => $request->input('responder_name'),
-            'email' => $request->input('email'),
+            'username' => $request->input('username'),
             // Add more fields as needed
         ]);
         return redirect()->back()->with('success-bt', 'Profile updated successfully');
