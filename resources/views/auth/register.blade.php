@@ -12,7 +12,7 @@
     @section('content')
 
     {{-- login New --}}
-    <div  class="h-screen bg-gradient-to-br flex justify-center items-center w-full">
+    <div  class="login-container h-screen bg-gradient-to-br flex justify-center items-center w-full">
         <form action="{{ route('register') }}" method="POST">
             @csrf
 

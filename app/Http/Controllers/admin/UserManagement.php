@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Mail\RegisterMail;
 use App\Models\User;
 use App\Mail\NewUser;
 use Illuminate\Support\Facades\Mail;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserManagement extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -26,18 +27,17 @@ class UserManagement extends Controller
 
         $responder = Auth::id();
         $data = User::where('id', '!=', $responder)->get();
-    
-        if(request()->ajax()) {
+
+        if (request()->ajax()) {
             return datatables()->of($data)
-            ->addColumn('action', 'admin.user_management.action')
-            ->rawColumns(['action'])
-            ->addIndexColumn()
-            ->make(true);
+                ->addColumn('action', 'admin.user_management.action')
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
         }
         return view('admin.user_management.userList');
-
     }
-     
+
     /**
      * Show the form for creating a new resource.
      *
@@ -47,7 +47,7 @@ class UserManagement extends Controller
     {
         return view('admin.user_management.addUser');
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -57,7 +57,7 @@ class UserManagement extends Controller
     public function store(Request $request)
     {
 
-    
+
         //=================================
         // $verificationLink = url('/verify/' . $token . '/' . $request->email . '/');
         // $mailSubject = 'E-Ligtas Email Verification';
@@ -73,7 +73,7 @@ class UserManagement extends Controller
         $token = " ";
         $defaultpassword = Str::random(12, 'abcdefghijklmnopqrstuvwxyz1234567890');
         $status = 'active';
-        
+
         $request->validate([
             'responder_name' => 'required|string|max:100',
             'email' => 'required|email|max:75|unique:users,email',
@@ -81,18 +81,23 @@ class UserManagement extends Controller
             'role' => 'required|string|max:100'
         ]);
 
+        $email = $request->email;
+        $emailParts = explode('@', $email);
+        $username = $emailParts[0];
+
         $user = new User();
 
         $user->responder_name = $request->responder_name;
         $user->email = $request->email;
         $user->userfrom = $request->userfrom;
         $user->role = $request->role;
+        $user->username = $username;
         $user->password = $defaultpassword;
         $user->status = $status;
         $user->token = $token;
         $user->save();
 
-        
+
         $mailAdduser = 'E-ligtas, New Registered Email';
         $addUserdata = [
             'responder_name' => $request->responder_name,
@@ -100,24 +105,22 @@ class UserManagement extends Controller
             'password' => $user->password = $defaultpassword
         ];
         Mail::to($request->email)->send(new NewUser($mailAdduser, $addUserdata));
-        
-        return redirect()->route('users.index')->with('success','Users has been Added successfully');
 
-       
+        return redirect()->route('users.index')->with('success', 'Users has been Added successfully');
     }
-     
-    
+
+
     public function show(User $user)
     {
-        return view('admin.user_management.showUser',compact('user'));
-    } 
-     
- 
+        return view('admin.user_management.showUser', compact('user'));
+    }
+
+
     public function edit(User $user)
     {
-        return view('admin.user_management.editUser',compact('user'));
+        return view('admin.user_management.editUser', compact('user'));
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -144,23 +147,22 @@ class UserManagement extends Controller
             'role' => $request->input('role')
         ]);
 
-        return redirect()->route('users.index')->with('success',' Updated successfully');
-
+        return redirect()->route('users.index')->with('success', ' Updated successfully');
     }
-    
-   
+
+
     public function destroy(Request $request)
     {
-    
-        $com = User::where('id',$request->id)->delete();
+
+        $com = User::where('id', $request->id)->delete();
         return Response()->json($com);
     }
-      
+
 
     public function resetpassword(Request $request, $id)
     {
 
-        $passreset = Str::random(12,'abcdefghijklmnopqrstuvwxyz123456789');
+        $passreset = Str::random(12, 'abcdefghijklmnopqrstuvwxyz123456789');
 
 
         $user = User::find($id);
@@ -183,7 +185,7 @@ class UserManagement extends Controller
 
 
 
-    public function userchangepass(Request $request,$id)
+    public function userchangepass(Request $request, $id)
     {
 
         $user = User::find($id);
@@ -200,10 +202,10 @@ class UserManagement extends Controller
         $validator = Validator::make($request->all(), [
             'password_confirmation' => 'required',
             'password' => [
-            'required',
-            'string', 'confirmed',
-            Password::min(8)->letters()->numbers()->mixedCase()->symbols()
-        ],
+                'required',
+                'string', 'confirmed',
+                Password::min(8)->letters()->numbers()->mixedCase()->symbols()
+            ],
         ]);
 
         if ($validator->fails()) {
@@ -214,14 +216,12 @@ class UserManagement extends Controller
                 ->withInput();
         }
 
-    
-    // Update password if a new one is provided
-    if ($request->filled('password')) {
-        $user->update(['password' => Hash::make($request->input('password'))]);
-        
+
+        // Update password if a new one is provided
+        if ($request->filled('password')) {
+            $user->update(['password' => Hash::make($request->input('password'))]);
+
             return redirect()->back()->with('success', 'You have successfully change your password');
-    }
-        
-        
+        }
     }
 }

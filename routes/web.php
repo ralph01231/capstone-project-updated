@@ -63,6 +63,8 @@ Route::get('/contact-Testing', [ContactTesting::class, 'index']);
 Route::middleware('guest')->group(function()
 {
     //For Authentication
+    Route::get('forgotpassword', [AuthController::class, 'forgotpasswordpage'])->name('forgotpassword');
+    Route::post('forgotpassword', [AuthController::class, 'forgotpassword']);
     Route::get('register', [AuthController::class, 'registerpage'])->name('register');
     Route::post('register', [AuthController::class, 'register']);
     Route::get('login', [AuthController::class, 'loginpage'])->name('login');

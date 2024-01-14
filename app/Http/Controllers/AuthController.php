@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Str;
+use App\Mail\ForgotPassword;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
@@ -20,14 +22,20 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
+    public function forgotpasswordpage()
+    {
+        return view('auth.forgotpassword');
+    }
+
+
     public function register(Request $request)
     {
-            //validate all input fields
-            //take only vaild data
-            // if any input field is empty then show error on blade template using 
-            // @error('field name')
-            // {{ $message }}
-            // @enderror
+        //validate all input fields
+        //take only vaild data
+        // if any input field is empty then show error on blade template using 
+        // @error('field name')
+        // {{ $message }}
+        // @enderror
 
         $rules = [
             'responder_name' => 'required|string|max:100',
@@ -35,10 +43,10 @@ class AuthController extends Controller
             'userfrom' => 'required|string|max:100',
             'password' => [
                 'required',
-                'string','confirmed',
+                'string', 'confirmed',
                 Password::min(8)->letters()->numbers()->mixedCase()->symbols()
             ],
-            
+
         ];
         $request->validate($rules);
         //first we write logic for registration
@@ -47,14 +55,15 @@ class AuthController extends Controller
 
 
         $user = new User();
-      
+
         $user->responder_name = $request->responder_name;
         $user->userfrom = $request->userfrom;
         $user->email = $request->email;
+        $user->username = "";
         $user->password = Hash::make($request->password); // we need to hash the password first
         $user->token = $token;
         $user->role = 'Super Admin';
-   
+
 
         //i don't work with validation in this video
         //you can use validation and also confirm_password to match both password
@@ -72,9 +81,9 @@ class AuthController extends Controller
         ];
         Mail::to($request->email)->send(new RegisterMail($mailSubject, $userData));
         //=================================
-        
+
         //to save data in database
-        return redirect('login')->with('success' , 'You have successfully sign up, So please verify your email');
+        return redirect('login')->with('success', 'You have successfully sign up, So please verify your email');
     }
 
     public function verifyAccount($token, $email)
@@ -91,56 +100,82 @@ class AuthController extends Controller
             $user->status = 'active';
             $user->update();
         }
-       
+
         return redirect('login')->with('success', 'You have been successfully verified, you can now sign in your account');
     }
 
-    public function loginpage(){
+    public function loginpage()
+    {
         return view('auth.login');
     }
 
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $request->validate([
-            'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required',
         ]);
-      
-            $credentials = [
-                'email' => $request->email,
-                'password' => $request->password,
-                // 'status' => 'active',
-                
-            ];
 
-            if (Auth::attempt($credentials)) {
-                $user = Auth::user();
+        $credentials = [
+            'username' => $request->username,
+            'password' => $request->password,
+            // 'status' => 'active',
 
-                if ($user->status == 'active')
-                {
-                    if($user->role == 'Super Admin'){
-                        return redirect()->intended('admin/dashboard')->with('success','Log  in Successful. Welcome Back admin');
-                    }
-                    else
-                    {
-                        return redirect()->intended('sector/dashboard');
-                    }
+        ];
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            if ($user->status == 'active') {
+                if ($user->role == 'Super Admin') {
+                    return redirect()->intended('admin/dashboard')->with('success', 'Log  in Successful. Welcome Back admin');
+                } else {
+                    return redirect()->intended('sector/dashboard');
                 }
-                else{
-                    Auth::logout();
-                    return redirect()->route('login')->with('error-msg','Your email was not verified');
-                }    
+            } else {
+                Auth::logout();
+                return redirect()->route('login')->with('error-msg', 'Your email was not verified');
             }
-            else {
+        } else {
 
-               return redirect()->route('login')->with('error-msg','Login Failed. Please check your Email & Password.');
-            }
-    }
-        public function destroy(Request $request): RedirectResponse
-        {
-            Auth::guard('web')->logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-            return redirect('/login');
+            return redirect()->route('login')->with('error-msg', 'Login Failed. Please check your Email & Password.');
         }
+    }
+    public function destroy(Request $request): RedirectResponse
+    {
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login');
+    }
+    public function forgotpassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $passreset = Str::random(12, 'abcdefghijklmnopqrstuvwxyz123456789');
+
+        $user = User::where('email', $request->input('email'))->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found with the provided email.');
+        }
+
+        $user->update([
+            'password' => $passreset,
+        ]);
+
+        $mailSubject = 'E-ligtas: Password Reset Successful';
+        $mailData = [
+            'responder_name' => $user->responder_name,
+            'username' => $user->username,
+            'email' => $request->email,
+            'password' => $user->password = $passreset
+        ];
+        Mail::to($request->input('email'))->send(new ForgotPassword($mailSubject, $mailData));
+
+        return redirect('login')->with('success', 'Successful Password Reset. Check your email for the new password.');
+    }
 }

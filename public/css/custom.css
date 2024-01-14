@@ -41,7 +41,7 @@ h4 {
  #sidebar {
     max-width: 264px;
     min-width: 264px;
-    background-color: rgb(51, 71, 246, 1);
+    background-color: #3c6cd8;
     transition: all 0.35s ease-in-out;
 
 }
@@ -182,10 +182,20 @@ a.sidebar-link {
     border-radius: 5px;
 }
 
-
-
 .data_table .btn{
  padding: 5px 10px;
  margin: 10px 3px 10px 0;
 }
+
+
+/* LOGIN CSS */
+
+body .login-container{
+    background-image: url(../images/bg1.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* END LOGIN CSS */
 

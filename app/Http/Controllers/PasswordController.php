@@ -10,32 +10,35 @@ use Illuminate\Support\Facades\Hash;
 
 class PasswordController extends Controller
 {
-    public function updatePassword(Request $request){
-        
-        $id = Auth::user()->responder_id;
+    public function updatePassword(Request $request)
+    {
+        $id = Auth::user()->id;
         $user = User::find($id);
+
+        // Check if the user exists
+        if (!$user) {
+            return redirect()->back()->with('error-msg', 'User not found');
+        }
 
         $request->validate([
             'current_password' => 'required_with:password|string|min:8',
-        'password' => [
-            'required',
-            'string', 'confirmed',
-            Password::min(8)->letters()->numbers()->mixedCase()->symbols()
-        ],
+            'password' => [
+                'required',
+                'string', 'confirmed',
+                Password::min(8)->letters()->numbers()->mixedCase()->symbols()
+            ],
         ]);
 
-       // Check if the current password is correct if provided
-    if ($request->filled('current_password')) {
-        if (!Hash::check($request->input('current_password'), $user->password)) {
-            return redirect()->back()->with('error-msg' , 'Your current password is Incorrect');
+        if ($request->filled('current_password')) {
+            if (!isset($user->password) || !Hash::check($request->input('current_password'), $user->password)) {
+                return redirect()->back()->with('error-msg', 'Your current password is incorrect');
+            }
         }
-    }
-   
-    // Update password if a new one is provided
-    if ($request->filled('password')) {
-        $user->update(['password' => Hash::make($request->input('password'))]);
-    }
-        return redirect()->back()->with('password-success', 'You have successfully change your password');
 
+        if ($request->filled('password')) {
+            $user->update(['password' => Hash::make($request->input('password'))]);
+        }
+
+        return redirect()->back()->with('password-success', 'You have successfully changed your password');
     }
 }

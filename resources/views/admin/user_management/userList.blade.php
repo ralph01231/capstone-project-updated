@@ -141,7 +141,7 @@
                        { data: 'userfrom', name: 'userfrom' },
                        { data: 'role', name: 'role' },
                        { data: 'status', name: 'status' },
-                       {data: 'action', name: 'action', orderable: false},
+                       {data: 'action', name: 'action', orderable: false, className: 'text-center align-middle'},
                     ],
                     order: [[0, 'desc']]
           });

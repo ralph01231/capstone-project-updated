@@ -150,10 +150,10 @@
                                 </div>
                                 
                                 <div class="row flex form-group justify-content-center">
-                                    <div class="col-6">
-                                        <button form="form1" type="submit" class="btn btn-primary">save changes</button>  
-                                        <button type="button" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#changepass-modal">change Password</button>
-                                        <button form="form3" id="resetPasswordBtn" type="button" class="btn btn-dark">reset password</button>
+                                    <div class="row col-10 gap-3 justify-content-start">
+                                        <button form="form1" type="submit" class="btn btn-primary col-5">save changes</button>  
+                                        <!-- <button type="button" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#changepass-modal">change Password</button> -->
+                                        <button form="form3" id="resetPasswordBtn" type="button" class="btn btn-dark col-5">reset password</button>
                                     </div>
                                 </div>
                             
