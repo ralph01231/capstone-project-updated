@@ -31,8 +31,8 @@
 
             <div class="space-y-4">
                 <div>
-                    <label for="username" class="block mb-1 text-gray-600 font-semibold">Username</label>
-                    <input type="username" name="username" id="username" placeholder="Username" class="bg-indigo-50 px-4 py-2 outline-none rounded-md w-full" autocomplete="new-password @error('error') is-invalid @enderror" value="{{ old('email') }}" />
+                    <label for="username" class="block mb-1 text-gray-600 font-semibold">Email or Username</label>
+                    <input type="username" name="username" id="username" placeholder="Email/Username" class="bg-indigo-50 px-4 py-2 outline-none rounded-md w-full" autocomplete="new-password @error('error') is-invalid @enderror" value="{{ old('email') }}" />
                     @error('username')
                     <div class="text-red-500">{{ $message }}</div>
                     @enderror

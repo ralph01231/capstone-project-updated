@@ -72,7 +72,7 @@ class UserManagement extends Controller
 
         $token = " ";
         $defaultpassword = Str::random(12, 'abcdefghijklmnopqrstuvwxyz1234567890');
-        $status = 'active';
+        $status = 'pending';
 
         $request->validate([
             'responder_name' => 'required|string|max:100',
@@ -97,12 +97,14 @@ class UserManagement extends Controller
         $user->token = $token;
         $user->save();
 
-
+        $verificationLink = url('/verify/' . $token . '/' . $request->email . '/');
         $mailAdduser = 'E-ligtas, New Registered Email';
         $addUserdata = [
             'responder_name' => $request->responder_name,
             'email' => $request->email,
-            'password' => $user->password = $defaultpassword
+            'username' => $username,
+            'password' => $user->password = $defaultpassword,
+            'link' => $verificationLink
         ];
         Mail::to($request->email)->send(new NewUser($mailAdduser, $addUserdata));
 

@@ -112,16 +112,16 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        $key = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
         $request->validate([
             'username' => 'required',
             'password' => 'required',
         ]);
 
         $credentials = [
-            'username' => $request->username,
+            $key => strtolower($request->username),
             'password' => $request->password,
-            // 'status' => 'active',
-
         ];
 
         if (Auth::attempt($credentials)) {
@@ -129,19 +129,21 @@ class AuthController extends Controller
 
             if ($user->status == 'active') {
                 if ($user->role == 'Super Admin') {
-                    return redirect()->intended('admin/dashboard')->with('success', 'Log  in Successful. Welcome Back admin');
+                    return redirect()->intended('admin/dashboard')->with('success', 'Login successful. Welcome back, admin');
                 } else {
                     return redirect()->intended('sector/dashboard');
                 }
             } else {
                 Auth::logout();
-                return redirect()->route('login')->with('error-msg', 'Your email was not verified');
+                return redirect()->route('login')->with('error-msg', 'Your account is not active.');
             }
         } else {
-
-            return redirect()->route('login')->with('error-msg', 'Login Failed. Please check your Email & Password.');
+            return redirect()->route('login')->with('error-msg', 'Login failed. Please check your username/email and password.');
         }
     }
+
+
+
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
