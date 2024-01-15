@@ -26,28 +26,34 @@ class PasswordController extends Controller
                 'required',
                 'string',
                 'min:8',
-                
             ],
 
             'password' => [
                 'required',
-                'string', 'confirmed',
+                'string',
+                // 'confirmed',
                 Password::min(8)->letters()->numbers()->mixedCase()->symbols(),
-                Rule::notIn([$request->current_password])
+                Rule::notIn([$request->current_password]),
             ],
-            'confirm_password' => 'required_with:password|string|min:8',
 
+            'confirm_password' => [
+                'required',
+                'string',
+                'min:8',
+            ],
         ]);
 
-        if ($request->filled('current_password')) {
-            if (!isset($user->password) || !Hash::check($request->input('current_password'), $user->password)) {
-                return redirect()->back()->with('error-msg', 'Your current password is incorrect');
-            }
+        if (!Hash::check($request->input('current_password'), $user->password)) {
+            return redirect()->back()->with('error-msg', 'Your current password is incorrect');
         }
 
-        if ($request->filled('password')) {
-            $user->update(['password' => Hash::make($request->input('password'))]);
+        // Check if 'password' and 'confirm_password' match
+        if ($request->input('password') !== $request->input('confirm_password')) {
+            return redirect()->back()->with('error-msg', 'The new password and confirmation do not match');
         }
+
+        // Update the password
+        $user->update(['password' => Hash::make($request->input('password'))]);
 
         return redirect()->back()->with('password-success', 'You have successfully changed your password');
     }

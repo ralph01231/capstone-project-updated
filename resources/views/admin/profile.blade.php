@@ -170,10 +170,10 @@
 
                                                 
                                                 <div class="col-md-12 mb-2">
-                                                    <label for="password_confirmation" class="labels">Confirm Password:</label>
-                                                    <input type="password" id="confirm_password" name="password_confirmation" class="form-control @error('confirm_password') is-invalid @enderror" placeholder="Re-enter New Password">
+                                                    <label for="confirm_password" class="labels">Confirm Password:</label>
+                                                    <input type="password" id="confirm_password" name="confirm_password" class="form-control @error('confirm_password') is-invalid @enderror" placeholder="Re-enter New Password">
                                                     
-                                                    @error('password_confirmation')
+                                                    @error('confirm_password')
                                                         <div class="text-danger" role="alert">
                                                             <strong>{{ $message }}</strong>
                                                         </div>
