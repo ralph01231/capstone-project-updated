@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <link rel="icon" href="{{ asset('images/e-ligtas-small-icon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/e-ligtas-small-icon.ico') }}" type="image/x-icon">
+
 
 
     <!-- Include Bootstrap 5 CSS and JS CDNs -->

@@ -47,7 +47,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="updateContactModalLabel">Edit Contacts</h5>
+                <h5 class="modal-title" id="updateContactModalLabel">EDIT HOTLINE</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="closeModal"
                     aria-label="Close"></button>
             </div>
@@ -91,7 +91,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteContactModalLabel">Delete Student</h5>
+                <h5 class="modal-title" id="deleteContactModalLabel">DELETE HOTLINE</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="closeModal"
                     aria-label="Close"></button>
             </div>
