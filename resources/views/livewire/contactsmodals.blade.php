@@ -1,10 +1,10 @@
 <!-- Insert Modal -->
-<div wire:ignore.self class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel"
+<div wire:ignore.self class="modal fade static-modal" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="contactModalLabel">Create Student</h5>
+                <h5 class="modal-title" id="contactModalLabel">ADD HOTLINE</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                     wire:click="closeModal"></button>
 
@@ -42,7 +42,7 @@
 </div>
  
 <!-- Update Student Modal -->
-<div wire:ignore.self class="modal fade" id="updateContactModal" tabindex="-1" aria-labelledby="updateContactModalLabel"
+<div wire:ignore.self class="modal fade static-modal" id="updateContactModal" tabindex="-1" aria-labelledby="updateContactModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -86,7 +86,7 @@
  
  
 <!-- Delete Student Modal -->
-<div wire:ignore.self class="modal fade" id="deleteContactModal" tabindex="-1" aria-labelledby="deleteContactModalLabel"
+<div wire:ignore.self class="modal fade static-modal" id="deleteContactModal" tabindex="-1" aria-labelledby="deleteContactModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -108,3 +108,13 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function() {
+      $('.static-modal').modal({
+        backdrop: 'static',
+        keyboard: false
+      });
+    });
+  </script>
