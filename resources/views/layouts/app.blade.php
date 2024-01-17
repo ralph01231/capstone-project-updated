@@ -48,8 +48,10 @@
 
 
     @yield('content')
+    
     @livewireScripts
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/pdfmake.min.js') }}"></script>
