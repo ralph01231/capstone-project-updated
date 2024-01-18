@@ -40,7 +40,7 @@ Route::get('/testing', function () {
 
 
 Route::get('/home', [DefaultHomeController::class, 'index'])->middleware('auth')->name('home');
-Route::patch('/passwordupdate' ,[PasswordController::class, 'updatePassword'])->name('password.update')->middleware('auth');
+Route::patch('/passwordupdate', [PasswordController::class, 'updatePassword'])->name('password.update')->middleware('auth');
 
 Route::get('/contact-Testing', [ContactTesting::class, 'index']);
 
@@ -60,8 +60,7 @@ Route::get('/contact-Testing', [ContactTesting::class, 'index']);
 
 
 
-Route::middleware('guest')->group(function()
-{
+Route::middleware('guest')->group(function () {
     //For Authentication
     Route::get('forgotpassword', [AuthController::class, 'forgotpasswordpage'])->name('forgotpassword');
     Route::post('forgotpassword', [AuthController::class, 'forgotpassword']);
@@ -69,63 +68,50 @@ Route::middleware('guest')->group(function()
     Route::post('register', [AuthController::class, 'register']);
     Route::get('login', [AuthController::class, 'loginpage'])->name('login');
     Route::post('login', [AuthController::class, 'login']);
-
 });
 
 
 // Admin
-Route::prefix('admin')->middleware(['auth','superadmin'])->group(function()
+Route::prefix('admin')->middleware(['auth', 'superadmin'])->group(function () {
 
-{
+    Route::get('/dashboard', [AdminHomeController::class, 'create'])->name('admin_dashboard');
+    Route::get('/profile', [AdminProfileController::class, 'show'])->name('admin_profile');
+    Route::patch('/editprofile', [AdminProfileController::class, 'updateInformation'])->name('admin_editprofile');
 
-    Route::get('/dashboard', [AdminHomeController::class, 'create'])->name('admin_dashboard');   
-    Route::get('/profile' ,[AdminProfileController::class, 'show'])->name('admin_profile');
-    Route::patch('/editprofile' ,[AdminProfileController::class, 'updateInformation'])->name('admin_editprofile');
-    
 
     //for User Management
     Route::resource('users', UserManagement::class);
-    Route::post('/delete-user', [UserManagement::class,'destroy']);
-    Route::patch('/passreset/{user}', [UserManagement::class,'resetpassword'])->name('mail.passreset');
-    Route::patch('/passchange/{user}', [UserManagement::class,'userchangepass'])->name('userchangepass');
+    Route::post('/delete-user', [UserManagement::class, 'destroy']);
+    Route::patch('/passreset/{user}', [UserManagement::class, 'resetpassword'])->name('mail.passreset');
+    Route::patch('/passchange/{user}', [UserManagement::class, 'userchangepass'])->name('userchangepass');
 
 
     //For Reports
-    Route::get('/activereports', [ReportController::class, 'show'])->name('reports'); 
-    Route::get('/acceptedreports', [AcceptedReportController::class, 'index'])->name('accepted_reports'); 
-    Route::get('/acceptedreports/exports', [AcceptedReportController::class, 'export'])->name('reports.export'); 
-    Route::get('/acceptedreports/exportscsv', [AcceptedReportController::class, 'exportcsv'])->name('reports.csv'); 
+    Route::get('/activereports', [ReportController::class, 'show'])->name('reports');
+    Route::get('/acceptedreports', [AcceptedReportController::class, 'index'])->name('accepted_reports');
+    Route::get('/acceptedreports/exports', [AcceptedReportController::class, 'export'])->name('reports.export');
+    Route::get('/acceptedreports/exportscsv', [AcceptedReportController::class, 'exportcsv'])->name('reports.csv');
     //contacts
-    Route::get('/hotlines', [HotlinesController::class, 'index'])->name('hotlines.index'); 
-    //guidelines
+    // Route::get('/hotlines', [HotlinesController::class, 'index'])->name('hotlines.index'); 
+    Route::get('hotlines', [HotlinesController::class, 'index'])->name('hotlines.index');
+    Route::resource('hotlines', HotlinesController::class);
+    Route::get('/hotlines/{hotline}/edit', [HotlinesController::class, 'edit'])->name('hotlines.edit');
+    Route::patch('/hotlines/{hotline}', [HotlinesController::class, 'update'])->name('hotlines.update');
+    Route::delete('admin/hotlines/{hotline}', [HotlinesController::class, 'destroy'])->name('hotlines.destroy');
 
     Route::get('/guidelines', [GuidelinesController::class, 'index'])->name('guidelines.index');
     Route::get('/guidelines/uploads', [GuidelinesController::class, 'uploadGuidelines'])->name('guidelines.upload');
-    
 });
 
 
 
 // user/ default
-Route::prefix('sector')->middleware(['auth','admin'])->group(function()
-{
+Route::prefix('sector')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [HomeController::class, 'create'])->name('dashboard');
-    Route::get('/profile' ,[ProfileController::class, 'show'])->name('edit_profile');
-    Route::patch('/profile' ,[ProfileController::class, 'update']);
+    Route::get('/profile', [ProfileController::class, 'show'])->name('edit_profile');
+    Route::patch('/profile', [ProfileController::class, 'update']);
 });
 
 
 Route::get('/verify/{token}/{email}', [AuthController::class, 'verifyAccount'])->name('verify_account');
-Route::post('logout',[AuthController::class, 'destroy'])->middleware('auth')->name('logout');
-
-
-
-
-
-
-
-
-
-
-
-
+Route::post('logout', [AuthController::class, 'destroy'])->middleware('auth')->name('logout');
