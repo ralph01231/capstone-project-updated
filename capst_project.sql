@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 14, 2024 at 09:21 AM
+-- Generation Time: Jan 18, 2024 at 03:51 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -42,7 +42,12 @@ CREATE TABLE `emergency_hotlines` (
 --
 
 INSERT INTO `emergency_hotlines` (`hotlines_id`, `hotlines_number`, `userfrom`, `responder_id`, `responder_name`, `created_at`, `updated_at`) VALUES
-(50, '092265988665', 'MDRRMO', 1, 'Kelly Dimatulac', '2024-01-12 15:42:17', '2024-01-12 15:42:17');
+(52, '222222222222', 'MDRRMO', 6, 'Ralph Lauren', '2024-01-17 06:08:48', '2024-01-17 06:08:48'),
+(53, '77777777', 'CAY POMBO', 6, 'Ralph Lauren', '2024-01-18 04:25:22', '2024-01-18 04:25:22'),
+(54, '666666', 'CAY POMBO', 6, 'Ralph Lauren', '2024-01-18 04:30:39', '2024-01-18 04:30:39'),
+(55, '092265988665', 'MDRRMO', 6, 'Ralph Lauren', '2024-01-18 05:13:11', '2024-01-18 05:13:11'),
+(56, '092265988665', 'AAAA', 6, 'Ralph Lauren', '2024-01-18 05:13:33', '2024-01-18 05:13:33'),
+(57, '0123456789', 'GUYONG', 6, 'Ralph Lauren', '2024-01-18 05:44:44', '2024-01-18 05:44:44');
 
 -- --------------------------------------------------------
 
@@ -74,6 +79,61 @@ CREATE TABLE `files` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `guidelines`
+--
+
+CREATE TABLE `guidelines` (
+  `guidelines_id` int(255) NOT NULL,
+  `guidelines_name` varchar(255) NOT NULL,
+  `thumbnail` varchar(255) NOT NULL,
+  `disaster_type` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `guidelines_after`
+--
+
+CREATE TABLE `guidelines_after` (
+  `ag_id` int(255) NOT NULL,
+  `headings` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `guidelines_id` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `guidelines_before`
+--
+
+CREATE TABLE `guidelines_before` (
+  `bg_id` int(255) NOT NULL,
+  `headings` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `guidelines_id` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `guidelines_during`
+--
+
+CREATE TABLE `guidelines_during` (
+  `dg_id` int(255) NOT NULL,
+  `headings` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `guidelines_id` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -205,8 +265,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `responder_name`, `userfrom`, `role`, `email`, `status`, `token`, `username`, `password`) VALUES
 (1, 'Kelly Dimatulac', 'MDRRMO', 'Super Admin', 'macdimatulac234@gmail.com', 'active', ' ', 'mac', '$2y$12$iA7izLoJiHAJzGxD2mv1ruOglHXdLBI1ov3/tiRo2dnP2U.FkE9VO'),
 (2, 'Mian Dimatulac', 'CAY POMBO', 'Admin', 'miandimatulac23@gmail.com', 'active', ' ', 'cay', '$2y$12$Ma55XmyemjB6UFI9C8zCLeGqm88ZR4GDSdF4FdwD5capGpaz1vd22'),
-(5, 'Ping', 'CAY POMBO', 'Super Admin', 'pingambatali@yahoo.com', 'active', ' ', 'ping', '$2y$12$UsqQwqsm2MwpVgTjSGJ9c.Q2o6YDJxB50G/xPlEUetxukr9M61LzW'),
-(6, 'Ralph Lauren', 'BFP', 'Super Admin', 'ambatalilauren@gmail.com', 'active', ' ', 'ambatalilauren', '$2y$12$7rigXIv6eTJFIlsFduJQtuiiFFa/EKibqRb8EUMPFmd4mj4TVSjJO');
+(6, 'Ralph Lauren', 'BFP', 'Super Admin', 'ambatalilauren@gmail.com', 'active', ' ', 'ambatalilauren', '$2y$12$KW4uQiCQ/.JK4qWUg5yxWOP5hQ6Hn/dY7kGlaxH2XGFSKlCLRQc6a'),
+(9, 'Ping', 'PNP', 'Super Admin', 'pingambatali@yahoo.com', 'active', ' ', 'pingambatali', '$2y$12$IFrqOsOKGfSfeclpwEAQbOubua.SZ2oN1AJ1yXEnFENiWIJfKC2Ti');
 
 --
 -- Indexes for dumped tables
@@ -230,6 +290,33 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `files`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `guidelines`
+--
+ALTER TABLE `guidelines`
+  ADD PRIMARY KEY (`guidelines_id`);
+
+--
+-- Indexes for table `guidelines_after`
+--
+ALTER TABLE `guidelines_after`
+  ADD PRIMARY KEY (`ag_id`),
+  ADD KEY `after` (`guidelines_id`);
+
+--
+-- Indexes for table `guidelines_before`
+--
+ALTER TABLE `guidelines_before`
+  ADD PRIMARY KEY (`bg_id`),
+  ADD KEY `before` (`guidelines_id`);
+
+--
+-- Indexes for table `guidelines_during`
+--
+ALTER TABLE `guidelines_during`
+  ADD PRIMARY KEY (`dg_id`),
+  ADD KEY `during` (`guidelines_id`);
 
 --
 -- Indexes for table `migrations`
@@ -271,7 +358,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `emergency_hotlines`
 --
 ALTER TABLE `emergency_hotlines`
-  MODIFY `hotlines_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `hotlines_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -307,7 +394,29 @@ ALTER TABLE `reports`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `guidelines_after`
+--
+ALTER TABLE `guidelines_after`
+  ADD CONSTRAINT `after` FOREIGN KEY (`guidelines_id`) REFERENCES `guidelines` (`guidelines_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `guidelines_before`
+--
+ALTER TABLE `guidelines_before`
+  ADD CONSTRAINT `before` FOREIGN KEY (`guidelines_id`) REFERENCES `guidelines` (`guidelines_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `guidelines_during`
+--
+ALTER TABLE `guidelines_during`
+  ADD CONSTRAINT `during` FOREIGN KEY (`guidelines_id`) REFERENCES `guidelines` (`guidelines_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
