@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 18, 2024 at 03:51 PM
+-- Generation Time: Jan 20, 2024 at 06:12 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -42,7 +42,7 @@ CREATE TABLE `emergency_hotlines` (
 --
 
 INSERT INTO `emergency_hotlines` (`hotlines_id`, `hotlines_number`, `userfrom`, `responder_id`, `responder_name`, `created_at`, `updated_at`) VALUES
-(52, '222222222222', 'MDRRMO', 6, 'Ralph Lauren', '2024-01-17 06:08:48', '2024-01-17 06:08:48'),
+(52, '222222222222333', 'MDRRMO', 6, 'Ralph Lauren', '2024-01-17 06:08:48', '2024-01-20 08:35:46'),
 (53, '77777777', 'CAY POMBO', 6, 'Ralph Lauren', '2024-01-18 04:25:22', '2024-01-18 04:25:22'),
 (54, '666666', 'CAY POMBO', 6, 'Ralph Lauren', '2024-01-18 04:30:39', '2024-01-18 04:30:39'),
 (55, '092265988665', 'MDRRMO', 6, 'Ralph Lauren', '2024-01-18 05:13:11', '2024-01-18 05:13:11'),
@@ -87,11 +87,22 @@ CREATE TABLE `files` (
 --
 
 CREATE TABLE `guidelines` (
-  `guidelines_id` int(255) NOT NULL,
+  `guidelines_id` bigint(20) UNSIGNED NOT NULL,
   `guidelines_name` varchar(255) NOT NULL,
   `thumbnail` varchar(255) NOT NULL,
-  `disaster_type` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `disaster_type` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `guidelines`
+--
+
+INSERT INTO `guidelines` (`guidelines_id`, `guidelines_name`, `thumbnail`, `disaster_type`, `created_at`, `updated_at`) VALUES
+(15, 'aaaaaaaaaa', 'file-storage/thumbnail_65abfc259281e.png', 'aaaaaaaaa', '2024-01-20 09:00:21', '2024-01-20 09:00:21'),
+(16, 'aaaaaaaaaa2', 'file-storage/thumbnail_65abfc97277d6.ico', 'aaaaaaaa2', '2024-01-20 09:02:15', '2024-01-20 09:02:15'),
+(17, 'aaaaaaaa3', 'file-storage/thumbnail_65abfcc48443c.png', 'aaaaaaaaaaa3', '2024-01-20 09:03:00', '2024-01-20 09:03:00');
 
 -- --------------------------------------------------------
 
@@ -100,12 +111,23 @@ CREATE TABLE `guidelines` (
 --
 
 CREATE TABLE `guidelines_after` (
-  `ag_id` int(255) NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `guidelines_id` bigint(20) UNSIGNED NOT NULL,
   `headings` varchar(255) NOT NULL,
   `image` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `guidelines_id` int(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `description` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `guidelines_after`
+--
+
+INSERT INTO `guidelines_after` (`id`, `guidelines_id`, `headings`, `image`, `description`, `created_at`, `updated_at`) VALUES
+(15, 15, 'aaaaaaaa', 'file-storage/after_file_65abfc2598b38.png', 'aaaaaaaaaaa', '2024-01-20 09:00:21', '2024-01-20 09:00:21'),
+(16, 16, 'aaaaaaaaaa2', 'file-storage/after_file_65abfc972d551.png', 'aaaaaaaaa2', '2024-01-20 09:02:15', '2024-01-20 09:02:15'),
+(17, 17, 'aaaaaaaaaa3', 'file-storage/after_file_65abfcc48b60e.png', 'aaaaaaaaaa3', '2024-01-20 09:03:00', '2024-01-20 09:03:00');
 
 -- --------------------------------------------------------
 
@@ -114,12 +136,23 @@ CREATE TABLE `guidelines_after` (
 --
 
 CREATE TABLE `guidelines_before` (
-  `bg_id` int(255) NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `guidelines_id` bigint(20) UNSIGNED NOT NULL,
   `headings` varchar(255) NOT NULL,
   `image` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `guidelines_id` int(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `description` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `guidelines_before`
+--
+
+INSERT INTO `guidelines_before` (`id`, `guidelines_id`, `headings`, `image`, `description`, `created_at`, `updated_at`) VALUES
+(15, 15, 'aaaaaaaaaa', 'file-storage/before_file_65abfc2597463.png', 'aaaaaaaaaaa', '2024-01-20 09:00:21', '2024-01-20 09:00:21'),
+(16, 16, 'aaaaaaaaaa2', 'file-storage/before_file_65abfc972bc15.png', 'aaaaaaaaaaaa2', '2024-01-20 09:02:15', '2024-01-20 09:02:15'),
+(17, 17, 'aaaaaaaaaaaaa3', 'file-storage/before_file_65abfcc489e1e.png', 'aaaaaaaa3', '2024-01-20 09:03:00', '2024-01-20 09:03:00');
 
 -- --------------------------------------------------------
 
@@ -128,12 +161,23 @@ CREATE TABLE `guidelines_before` (
 --
 
 CREATE TABLE `guidelines_during` (
-  `dg_id` int(255) NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `guidelines_id` bigint(20) UNSIGNED NOT NULL,
   `headings` varchar(255) NOT NULL,
   `image` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `guidelines_id` int(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `description` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `guidelines_during`
+--
+
+INSERT INTO `guidelines_during` (`id`, `guidelines_id`, `headings`, `image`, `description`, `created_at`, `updated_at`) VALUES
+(15, 15, 'aaaaaaaaaaa', 'file-storage/during_file_65abfc2597fda.png', 'aaaaaaaa', '2024-01-20 09:00:21', '2024-01-20 09:00:21'),
+(16, 16, 'aaaaaaaaaaaa2', 'file-storage/during_file_65abfc972c948.png', 'aaaaaaaa2', '2024-01-20 09:02:15', '2024-01-20 09:02:15'),
+(17, 17, 'aaaaaaaaaaaaa3', 'file-storage/during_file_65abfcc48a977.png', 'aaaaaaaa3', '2024-01-20 09:03:00', '2024-01-20 09:03:00');
 
 -- --------------------------------------------------------
 
@@ -158,7 +202,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (5, '2023_11_16_195233_create_files_table', 1),
 (6, '2023_12_16_080440_create_reports_table', 1),
-(7, '2024_01_06_031350_create_table_emergency_hotlines', 1);
+(7, '2024_01_06_031350_create_table_emergency_hotlines', 1),
+(8, '2024_01_20_110802_create_guidelines_before_table', 2),
+(9, '2024_01_20_113540_create_guidelines_table', 3),
+(10, '2024_01_20_110241_create_guidelines_during_table', 4),
+(11, '2024_01_20_114137_create_guidelines_table_before', 5),
+(12, '2024_01_20_110843_create_guidelines_after_table', 6);
 
 -- --------------------------------------------------------
 
@@ -301,22 +350,22 @@ ALTER TABLE `guidelines`
 -- Indexes for table `guidelines_after`
 --
 ALTER TABLE `guidelines_after`
-  ADD PRIMARY KEY (`ag_id`),
-  ADD KEY `after` (`guidelines_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `guidelines_after_guidelines_id_foreign` (`guidelines_id`);
 
 --
 -- Indexes for table `guidelines_before`
 --
 ALTER TABLE `guidelines_before`
-  ADD PRIMARY KEY (`bg_id`),
-  ADD KEY `before` (`guidelines_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `guidelines_before_guidelines_id_foreign` (`guidelines_id`);
 
 --
 -- Indexes for table `guidelines_during`
 --
 ALTER TABLE `guidelines_during`
-  ADD PRIMARY KEY (`dg_id`),
-  ADD KEY `during` (`guidelines_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `guidelines_during_guidelines_id_foreign` (`guidelines_id`);
 
 --
 -- Indexes for table `migrations`
@@ -373,10 +422,34 @@ ALTER TABLE `files`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `guidelines`
+--
+ALTER TABLE `guidelines`
+  MODIFY `guidelines_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `guidelines_after`
+--
+ALTER TABLE `guidelines_after`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `guidelines_before`
+--
+ALTER TABLE `guidelines_before`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `guidelines_during`
+--
+ALTER TABLE `guidelines_during`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -404,19 +477,19 @@ ALTER TABLE `users`
 -- Constraints for table `guidelines_after`
 --
 ALTER TABLE `guidelines_after`
-  ADD CONSTRAINT `after` FOREIGN KEY (`guidelines_id`) REFERENCES `guidelines` (`guidelines_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `guidelines_after_guidelines_id_foreign` FOREIGN KEY (`guidelines_id`) REFERENCES `guidelines` (`guidelines_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `guidelines_before`
 --
 ALTER TABLE `guidelines_before`
-  ADD CONSTRAINT `before` FOREIGN KEY (`guidelines_id`) REFERENCES `guidelines` (`guidelines_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `guidelines_before_guidelines_id_foreign` FOREIGN KEY (`guidelines_id`) REFERENCES `guidelines` (`guidelines_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `guidelines_during`
 --
 ALTER TABLE `guidelines_during`
-  ADD CONSTRAINT `during` FOREIGN KEY (`guidelines_id`) REFERENCES `guidelines` (`guidelines_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `guidelines_during_guidelines_id_foreign` FOREIGN KEY (`guidelines_id`) REFERENCES `guidelines` (`guidelines_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
