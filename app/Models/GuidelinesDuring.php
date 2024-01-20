@@ -1,15 +1,24 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Guidelines;
 
 class GuidelinesDuring extends Model
 {
     protected $table = 'guidelines_during';
-    protected $primaryKey = 'dg_id'; // You may adjust the primary key based on your actual structure
+    protected $primaryKey = 'id';
+
+    protected $fillable = [
+        'guidelines_id',
+        'headings',
+        'image',
+        'description',
+    ];
+
     public function guideline()
     {
-        return $this->belongsTo(Guidelines::class, 'guidelines_id', 'ag_id');
+        return $this->belongsTo(Guidelines::class, 'guidelines_id', 'guidelines_id');
     }
 }

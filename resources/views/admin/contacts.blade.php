@@ -36,7 +36,7 @@
                                     <th>Hotlines No.</th>
                                     <th>User From</th>
                                     <th>Posted By</th>
-                                    <th class="text-center">Action</th>
+                                    <th class="no-export text-center">Action</th>
                                 </tr>
                             </thead>
                         </table>
@@ -97,6 +97,25 @@
                     `;
                     },
                     orderable: false
+                }
+            ],
+            buttons: [{
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
                 }
             ],
             "paging": true,

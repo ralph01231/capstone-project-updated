@@ -100,7 +100,10 @@ Route::prefix('admin')->middleware(['auth', 'superadmin'])->group(function () {
     Route::delete('admin/hotlines/{hotline}', [HotlinesController::class, 'destroy'])->name('hotlines.destroy');
 
     Route::get('/guidelines', [GuidelinesController::class, 'index'])->name('guidelines.index');
-    Route::get('/guidelines/uploads', [GuidelinesController::class, 'uploadGuidelines'])->name('guidelines.upload');
+    Route::post('/store-guidelines', [GuidelinesController::class, 'storeGuidelines'])->name('guidelines.store');
+    Route::get('/guidelines/{guidelines}/edit', [GuidelinesController::class, 'edit'])->name('guidelines.edit');
+    Route::post('/guidelines/{guidelinesID}', [GuidelinesController::class, 'updateGuidelines'])->name('guidelines.update');
+    Route::delete('admin/guidelines/{guidelinesID}', [GuidelinesController::class, 'destroy'])->name('guidelines.destroy');
 });
 
 

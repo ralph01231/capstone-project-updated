@@ -38,7 +38,6 @@
     </div>
 </div>
 
-<!-- Update Student Modal -->
 <div class="modal fade static-modal" id="updateContactModal" tabindex="-1" aria-labelledby="updateContactModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -49,12 +48,12 @@
             <form id="updateContactForm">
                 @csrf
                 <div class="modal-body">
-                    <input type="text" class="form-control" id="hotline_id" name="hotline_id">
+                    <input type="hidden" class="form-control" id="hotline_id" name="hotline_id">
 
                     <div class="mb-3">
                         <label>Hotline Number</label>
                         <input type="text" class="form-control" id="hotline_number" name="hotline_number">
-                        <span class="text-danger"></span>
+                        <span class="text-danger" id="edit_hotline_number"></span>
                     </div>
                     <div class="mb-3">
                         <label>User From</label>
@@ -67,18 +66,19 @@
                             <option value="CAYSIO">CAAYSIO</option>
                             <option value="GUYONG">GUYONG</option>
                         </select>
-                        <span class="text-danger"></span>
+                        <span class="text-danger" id="edit_user_from"></span>
                     </div>
                     <div class="mb-3">
                         <label>Responder Name</label>
                         <input type="text" class="form-control" id="responder_name" disabled>
-                        <span class="text-danger"></span>
+                        <span class="text-danger" id="edit_responder_name"></span>
                     </div>
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label>Responder id</label>
-                        <input type="text" class="form-control" id="responder_id" disabled>
-                        <span class="text-danger"></span>
-                    </div>
+                        
+                        <span class="text-danger" id=""></span>
+                    </div> -->
+                    <input type="hidden" class="form-control" id="responder_id" disabled>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -137,7 +137,7 @@
                 error: function(error) {
                     var errors = error.responseJSON.errors;
                     $.each(errors, function(key, value) {
-                        $('#update_' + key).next('.text-danger').text(value[0]);
+                        $('#edit_' + key).text(value[0]);
                     });
                 }
             });
