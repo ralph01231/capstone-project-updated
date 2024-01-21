@@ -29,10 +29,9 @@ class HotlinesController extends Controller
 
         $totalRecords = $query->count();
 
-        if ($request->has('start') && $request->has('length')) {
-            $start = $request->input('start');
+        if ($request->has('length') && $request->input('length') != -1) {
             $length = $request->input('length');
-            $query->skip($start)->take($length);
+            $query->skip($request->input('start'))->take($length);
         }
 
         $hotlines = $query->get();
@@ -48,8 +47,8 @@ class HotlinesController extends Controller
 
         $jsonData = [
             'data' => $formattedHotlines,
-            'recordsTotal' => $totalRecords, 
-            'recordsFiltered' => $totalRecords, 
+            'recordsTotal' => $totalRecords,
+            'recordsFiltered' => $totalRecords,
         ];
 
         if ($request->wantsJson()) {

@@ -58,7 +58,14 @@
         var hotlinesTable = $('#hotline-table').DataTable({
             "processing": true,
             "serverSide": true,
-            "ajax": "{{ route('hotlines.index') }}",
+            "ajax": {
+                url: "{{ route('hotlines.index') }}",
+                "data": function(d) {
+                    if (d.buttons) {
+                        d.action = 'export';
+                    }
+                }
+            },
             "columns": [{
                     data: 'hotlines_id',
                     name: 'hotlines_id'
@@ -117,6 +124,10 @@
                         columns: ':not(.no-export)'
                     }
                 }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
             ],
             "paging": true,
             "lengthChange": true,

@@ -17,7 +17,6 @@ class GuidelinesController extends Controller
     {
         $query = Guidelines::select(['guidelines_id', 'guidelines_name', 'created_at']);
 
-        // Apply search filters
         if ($request->has('search') && !empty($request->input('search')['value'])) {
             $searchValue = $request->input('search')['value'];
 
@@ -28,14 +27,15 @@ class GuidelinesController extends Controller
             });
         }
 
-        // Get the total count without pagination
         $totalRecords = $query->count();
 
-        // Apply pagination
         if ($request->has('start') && $request->has('length')) {
             $start = $request->input('start');
             $length = $request->input('length');
-            $query->skip($start)->take($length);
+
+            if ($length != -1) {
+                $query->skip($start)->take($length);
+            }
         }
 
         $guidelines = $query->get();
@@ -50,7 +50,7 @@ class GuidelinesController extends Controller
 
         $jsonData = [
             'data' => $formattedGuidelines,
-            'recordsTotal' => $totalRecords, 
+            'recordsTotal' => $totalRecords,
             'recordsFiltered' => $totalRecords,
         ];
 
@@ -58,17 +58,17 @@ class GuidelinesController extends Controller
             return response()->json($jsonData);
         }
 
-       
+
         return view('admin.guidelines_management.guidelines', $jsonData);
     }
 
 
     public function edit(Guidelines $guidelines)
     {
-        
+
         $guidelines->load(['before', 'during', 'after']);
 
-    
+
         return response()->json(['data' => $guidelines]);
     }
 

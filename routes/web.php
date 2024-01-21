@@ -91,6 +91,7 @@ Route::prefix('admin')->middleware(['auth', 'superadmin'])->group(function () {
     Route::get('/acceptedreports', [AcceptedReportController::class, 'index'])->name('accepted_reports');
     Route::get('/acceptedreports/exports', [AcceptedReportController::class, 'export'])->name('reports.export');
     Route::get('/acceptedreports/exportscsv', [AcceptedReportController::class, 'exportcsv'])->name('reports.csv');
+
     //contacts
     // Route::get('/hotlines', [HotlinesController::class, 'index'])->name('hotlines.index'); 
     Route::get('hotlines', [HotlinesController::class, 'index'])->name('hotlines.index');
