@@ -97,24 +97,24 @@ class GuidelinesController extends Controller
 
         $thumbnailFileName = $request->file('thumbnail')->storeAs(
             'file-storage',
-            'thumbnail_' . uniqid() . '.' . $request->file('thumbnail')->extension(),
+            'thumbnail_' . uniqid() . '.' . $request->file('thumbnail')->getClientOriginalExtension(),
             'public'
         );
         $beforeFileName = $request->file('before_file')->storeAs(
             'file-storage',
-            'before_file_' . uniqid() . '.' . $request->file('before_file')->extension(),
+            'before_file_' . uniqid() . '.' . $request->file('before_file')->getClientOriginalExtension(),
             'public'
         );
 
         $duringFileName = $request->file('during_file')->storeAs(
             'file-storage',
-            'during_file_' . uniqid() . '.' . $request->file('during_file')->extension(),
+            'during_file_' . uniqid() . '.' . $request->file('during_file')->getClientOriginalExtension(),
             'public'
         );
 
         $afterFileName = $request->file('after_file')->storeAs(
             'file-storage',
-            'after_file_' . uniqid() . '.' . $request->file('after_file')->extension(),
+            'after_file_' . uniqid() . '.' . $request->file('after_file')->getClientOriginalExtension(),
             'public'
         );
 
@@ -184,9 +184,9 @@ class GuidelinesController extends Controller
 
             $thumbnailFileName = 'thumbnail_' . uniqid() . '.' . $request->file('thumbnail')->getClientOriginalExtension();
 
-            $request->file('thumbnail')->storeAs('file-storage', $thumbnailFileName, 'public');
+            $thumbnailPath = $request->file('thumbnail')->storeAs('file-storage', $thumbnailFileName, 'public');
 
-            $guidelinesID->update(['thumbnail' => $thumbnailFileName]);
+            $guidelinesID->update(['thumbnail' => $thumbnailPath]);
         }
         $before = $guidelinesID->before;
         $before->update([
@@ -199,9 +199,9 @@ class GuidelinesController extends Controller
                 Storage::disk('public')->delete($guidelinesID->before->image);
             }
             $beforeFileName = 'before_file_' . uniqid() . '.' . $request->file('before_file')->getClientOriginalExtension();
-            $request->file('before_file')->storeAs('file-storage', $beforeFileName, 'public');
+            $beforePath = $request->file('before_file')->storeAs('file-storage', $beforeFileName, 'public');
 
-            $guidelinesID->before->update(['image' => $beforeFileName]);
+            $guidelinesID->before->update(['image' => $beforePath]);
         }
 
         $during = $guidelinesID->during;
@@ -217,9 +217,9 @@ class GuidelinesController extends Controller
 
             $duringFileName = 'during_file_' . uniqid() . '.' . $request->file('during_file')->getClientOriginalExtension();
 
-            $request->file('during_file')->storeAs('file-storage', $duringFileName, 'public');
+            $duringPath = $request->file('during_file')->storeAs('file-storage', $duringFileName, 'public');
 
-            $guidelinesID->during->update(['image' => $duringFileName]);
+            $guidelinesID->during->update(['image' => $duringPath]);
         }
 
         $after = $guidelinesID->after;
@@ -235,14 +235,14 @@ class GuidelinesController extends Controller
 
             $afterFileName = 'after_file_' . uniqid() . '.' . $request->file('after_file')->getClientOriginalExtension();
 
-            $request->file('after_file')->storeAs('file-storage', $afterFileName, 'public');
+            $afterPath = $request->file('after_file')->storeAs('file-storage', $afterFileName, 'public');
 
-            $guidelinesID->after->update(['image' => $afterFileName]);
+            $guidelinesID->after->update(['image' => $afterPath]);
         }
 
         return response()->json(['message' => 'Guidelines updated successfully']);
     }
-    public function destroy(Request $request, Guidelines $guidelinesID)
+    public function destroy(Guidelines $guidelinesID)
     {
         if ($guidelinesID) {
             if ($guidelinesID->thumbnail) {
