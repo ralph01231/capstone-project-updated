@@ -195,8 +195,8 @@
 <script>
     $(document).ready(function() {
         function resetForm(formId) {
-            $(formId)[0].reset(); // Reset the form
-            $(formId + ' .text-danger').text(''); // Clear error messages
+            $(formId)[0].reset();
+            $(formId + ' .text-danger').text('');
         }
 
         $('.static-modal').modal({
@@ -208,7 +208,6 @@
             resetForm('#addGuidelinesForm');
         });
 
-        // Reset the editGuidelinesForm on modal close
         $('#editGuidelinesModal').on('hidden.bs.modal', function() {
             resetForm('#editGuidelinesForm');
         });

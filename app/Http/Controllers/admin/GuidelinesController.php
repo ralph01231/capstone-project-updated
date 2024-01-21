@@ -9,16 +9,36 @@ use App\Models\Guidelines;
 use App\Models\GuidelinesBefore;
 use App\Models\GuidelinesDuring;
 use App\Models\GuidelinesAfter;
-use Illuminate\Validation\Rule;
-use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 
 class GuidelinesController extends Controller
 {
     public function index(Request $request)
     {
-        $guidelines = Guidelines::select(['guidelines_id', 'guidelines_name', 'created_at'])->get();
+        $query = Guidelines::select(['guidelines_id', 'guidelines_name', 'created_at']);
+
+        // Apply search filters
+        if ($request->has('search') && !empty($request->input('search')['value'])) {
+            $searchValue = $request->input('search')['value'];
+
+            $query->where(function ($q) use ($searchValue) {
+                $q->where('guidelines_id', 'like', '%' . $searchValue . '%')
+                    ->orWhere('guidelines_name', 'like', '%' . $searchValue . '%')
+                    ->orWhere('created_at', 'like', '%' . $searchValue . '%');
+            });
+        }
+
+        // Get the total count without pagination
+        $totalRecords = $query->count();
+
+        // Apply pagination
+        if ($request->has('start') && $request->has('length')) {
+            $start = $request->input('start');
+            $length = $request->input('length');
+            $query->skip($start)->take($length);
+        }
+
+        $guidelines = $query->get();
 
         $formattedGuidelines = $guidelines->map(function ($guideline) {
             return [
@@ -28,22 +48,27 @@ class GuidelinesController extends Controller
             ];
         });
 
-        $jsonData = ['data' => $formattedGuidelines];
+        $jsonData = [
+            'data' => $formattedGuidelines,
+            'recordsTotal' => $totalRecords, 
+            'recordsFiltered' => $totalRecords,
+        ];
 
         if ($request->wantsJson()) {
             return response()->json($jsonData);
         }
 
-        // Return view with data
+       
         return view('admin.guidelines_management.guidelines', $jsonData);
     }
 
+
     public function edit(Guidelines $guidelines)
     {
-        // Eager load the related data
+        
         $guidelines->load(['before', 'during', 'after']);
 
-        // Fetch the details of the guidelines along with related data
+    
         return response()->json(['data' => $guidelines]);
     }
 

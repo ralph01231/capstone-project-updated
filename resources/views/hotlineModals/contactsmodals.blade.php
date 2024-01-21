@@ -91,9 +91,21 @@
 
 <script>
     $(document).ready(function() {
+        function resetForm(formId) {
+            $(formId)[0].reset();
+            $(formId + ' .text-danger').text('');
+        }
         $('.static-modal').modal({
             backdrop: 'static',
             keyboard: false
+        });
+
+        $('#contactModal').on('hidden.bs.modal', function() {
+            resetForm('#contactForm');
+        });
+
+        $('#updateContactModal').on('hidden.bs.modal', function() {
+            resetForm('#updateContactForm');
         });
     });
 </script>

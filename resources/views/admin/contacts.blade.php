@@ -120,7 +120,7 @@
             ],
             "paging": true,
             "lengthChange": true,
-            "dom": '<"d-flex justify-content-between align-items-center mb-5"lB<"d-flex align-items-center">f>t<"d-flex justify-content-end">',
+            "dom": '<"d-flex justify-content-between align-items-center mb-5"lB<"d-flex align-items-center">f>t<"d-flex justify-content-end">p',
         });
 
         $('#hotline-table').on('click', '.edit-hotline', function() {

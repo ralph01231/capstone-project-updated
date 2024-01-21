@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Hotline;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 
 
@@ -15,7 +14,28 @@ class HotlinesController extends Controller
 {
     public function index(Request $request)
     {
-        $hotlines = Hotline::select(['hotlines_id', 'hotlines_number', 'userfrom', 'responder_name'])->get();
+        $query = Hotline::select(['hotlines_id', 'hotlines_number', 'userfrom', 'responder_name']);
+
+        if ($request->has('search') && !empty($request->input('search')['value'])) {
+            $searchValue = $request->input('search')['value'];
+
+            $query->where(function ($q) use ($searchValue) {
+                $q->where('hotlines_id', 'like', '%' . $searchValue . '%')
+                    ->orWhere('hotlines_number', 'like', '%' . $searchValue . '%')
+                    ->orWhere('userfrom', 'like', '%' . $searchValue . '%')
+                    ->orWhere('responder_name', 'like', '%' . $searchValue . '%');
+            });
+        }
+
+        $totalRecords = $query->count();
+
+        if ($request->has('start') && $request->has('length')) {
+            $start = $request->input('start');
+            $length = $request->input('length');
+            $query->skip($start)->take($length);
+        }
+
+        $hotlines = $query->get();
 
         $formattedHotlines = $hotlines->map(function ($hotline) {
             return [
@@ -26,12 +46,16 @@ class HotlinesController extends Controller
             ];
         });
 
-        $jsonData = ['data' => $formattedHotlines];
+        $jsonData = [
+            'data' => $formattedHotlines,
+            'recordsTotal' => $totalRecords, 
+            'recordsFiltered' => $totalRecords, 
+        ];
+
         if ($request->wantsJson()) {
             return response()->json($jsonData);
         }
 
-        // Return view with data
         return view('admin.contacts', $jsonData);
     }
 
@@ -44,14 +68,12 @@ class HotlinesController extends Controller
 
         $user = Auth::user();
 
-        // Create a new Hotline instance and populate fields
         $hotline = new Hotline;
         $hotline->hotlines_number = $request->input('hotline_number');
         $hotline->userfrom = $request->input('user_from');
         $hotline->responder_id = $user->id;
         $hotline->responder_name = $user->responder_name;
 
-        // Save the hotline record
         $hotline->save();
         $hotline->save();
 
@@ -60,27 +82,21 @@ class HotlinesController extends Controller
 
     public function edit(Hotline $hotline)
     {
-        // Fetch the details of the hotline
         return response()->json(['data' => $hotline]);
     }
 
     public function update(Request $request, Hotline $hotline)
     {
-        // Validate the request data
         $request->validate([
             'hotline_number' => 'required',
             'user_from' => 'required',
-            // Add validation rules for other fields as needed
         ]);
 
-        // Update the hotline with the new data
         $hotline->update([
             'hotlines_number' => $request->input('hotline_number'),
             'userfrom' => $request->input('user_from'),
-            // Update other fields as needed
         ]);
 
-        // Return a response, redirect, or perform any other necessary actions
         return response()->json(['message' => 'Hotline updated successfully']);
     }
     public function destroy(Hotline $hotline)
