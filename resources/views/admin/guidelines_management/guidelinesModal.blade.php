@@ -192,6 +192,78 @@
     </div>
 </div>
 
+<div class="modal fade static-modal" id="viewGuidelinesModal" tabindex="-1" aria-labelledby="viewGuidelinesModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">View Guidelines</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <div class="mb-3">
+                        <label class="fw-bold">Guidelines title:</label>
+                        <span id="guidelines_title"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">Thumbnail:</label>
+                        <div id="thumbnail"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">Disaster type:</label>
+                        <span id="disaster_type"></span>
+                    </div>
+                </div>
+                <div class="mb-3 border rounded p-3">
+                    <label class="fw-bold fs-3">BEFORE</label>
+                    <div class="mb-3">
+                        <label class="fw-bold">Headings:</label>
+                        <span id="before_headings"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">File:</label>
+                        <div id="before_file"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">Description:</label>
+                        <span id="before_description"></span>
+                    </div>
+                </div>
+                <div class="mb-3 border rounded p-3">
+                    <label class="fw-bold fs-3">DURING</label>
+                    <div class="mb-3">
+                        <label class="fw-bold">Headings:</label>
+                        <span id="during_headings"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">File:</label>
+                        <div id="during_file"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">Description:</label>
+                        <span id="during_description"></span>
+                    </div>
+                </div>
+                <div class="mb-3 border rounded p-3">
+                    <label class="fw-bold fs-3">AFTER</label>
+                    <div class="mb-3">
+                        <label class="fw-bold">Headings:</label>
+                        <span id="after_headings"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">File:</label>
+                        <div id="after_file"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">Description:</label>
+                        <span id="after_description"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         function resetForm(formId) {
