@@ -203,8 +203,8 @@ body .login-container{
 /* GUIDELINES VIEW CSS */
 
 .image-guidlines-view{
-    width: 100px;
-    height: 100px;
+    width: 500px;
+    height: auto;
 }
 
 /* END GUIDELINES VIEW CSShtml */

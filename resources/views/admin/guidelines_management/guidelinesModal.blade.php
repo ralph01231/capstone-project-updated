@@ -16,6 +16,7 @@
 
                     <div class="mb-3">
                         <label for="thumbnail" class="form-label">Thumbnail</label>
+                        <div id="thumbnailPreview" class="mb-3"></div>
                         <input type="file" class="form-control" id="thumbnail" name="thumbnail">
                         <span class="text-danger"></span>
                     </div>
@@ -37,6 +38,7 @@
 
                         <div class="mb-3">
                             <label for="before_file" class="form-label">File</label>
+                            <div id="beforeVideoPreview" class="mb-3"></div>
                             <input type="file" class="form-control" id="before_file" name="before_file">
                             <span class="text-danger"></span>
                         </div>
@@ -59,6 +61,7 @@
 
                         <div class="mb-3">
                             <label for="during_file" class="form-label">File</label>
+                            <div id="duringVideoPreview" class="mb-3"></div>
                             <input type="file" class="form-control" id="during_file" name="during_file">
                             <span class="text-danger"></span>
                         </div>
@@ -82,6 +85,7 @@
 
                         <div class="mb-3">
                             <label for="after_file" class="form-label">File</label>
+                            <div id="afterVideoPreview" class="mb-3"></div>
                             <input type="file" class="form-control" id="after_file" name="after_file">
                             <span class="text-danger"></span>
                         </div>
@@ -121,6 +125,7 @@
 
                     <div class="mb-3">
                         <label for="thumbnail" class="form-label">Thumbnail</label>
+                        <div id="editThumbnailPreview" class="mb-3"></div>
                         <input type="file" class="form-control" id="thumbnail" name="thumbnail">
                         <span class="text-danger" id="edit_thumbnail"></span>
                     </div>
@@ -140,6 +145,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="before_file" class="form-label">File</label>
+                            <div id="editBeforeVideoPreview" class="mb-3"></div>
                             <input type="file" class="form-control" id="before_file" name="before_file">
                         </div>
                         <div class="mb-3">
@@ -158,6 +164,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="during_file" class="form-label">File</label>
+                            <div id="editDuringVideoPreview" class="mb-3"></div>
                             <input type="file" class="form-control" id="during_file" name="during_file">
                         </div>
                         <div class="mb-3">
@@ -176,6 +183,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="after_file" class="form-label">File</label>
+                            <div id="editAfterVideoPreview" class="mb-3"></div>
                             <input type="file" class="form-control" id="after_file" name="after_file">
                         </div>
                         <div class="mb-3">
@@ -278,10 +286,12 @@
 
         $('#addGuidelinesModal').on('hidden.bs.modal', function() {
             resetForm('#addGuidelinesForm');
+            clearPreviews();
         });
 
         $('#editGuidelinesModal').on('hidden.bs.modal', function() {
             resetForm('#editGuidelinesForm');
+            editClearPreviews();
         });
     });
 </script>
@@ -340,5 +350,70 @@
                 }
             });
         });
+
+        $('#thumbnail, #before_file, #during_file, #after_file').change(function() {
+            displayDynamicPreview(this);
+        });
     });
+
+
+    function displayDynamicPreview(input) {
+        var previewElement;
+        switch (input.id) {
+            case 'thumbnail':
+                previewElement = '#thumbnailPreview';
+                // previewElement = '#editThumbnailPreview';
+                break;
+            case 'before_file':
+                previewElement = '#beforeVideoPreview';
+                // previewElement = '#editBeforeVideoPreview';
+                break;
+            case 'during_file':
+                previewElement = '#duringVideoPreview';
+                // previewElement = '#editDuringVideoPreview';
+                break;
+            case 'after_file':
+                previewElement = '#afterVideoPreview';
+                // previewElement = '#editAfterVideoPreview';
+                break;
+            default:
+                break;
+        }
+
+        clearPreview(previewElement);
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var fileType = input.files[0].type;
+
+                if (fileType.startsWith('image/')) {
+                    $(previewElement).html('<img src="' + e.target.result + '" class="img-thumbnail" alt="Image Preview">');
+                } else if (fileType.startsWith('video/')) {
+                    $(previewElement).html('<video controls width="200"><source src="' + e.target.result + '" type="' + fileType + '"></video>');
+                } else {
+                    $(previewElement).html('<p class="text-danger">Unsupported file type</p>');
+                }
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function clearPreviews() {
+        clearPreview('#thumbnailPreview');
+        clearPreview('#beforeVideoPreview');
+        clearPreview('#duringVideoPreview');
+        clearPreview('#afterVideoPreview');
+    }
+
+    function editClearPreviews() {
+        clearPreview('#editThumbnailPreview');
+        clearPreview('#editBeforeVideoPreview');
+        clearPreview('#editDuringVideoPreview');
+        clearPreview('#editAfterVideoPreview');
+    }
+
+    function clearPreview(previewElement) {
+        $(previewElement).empty();
+    }
 </script>
