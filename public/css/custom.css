@@ -209,3 +209,8 @@ body .login-container{
 
 /* END GUIDELINES VIEW CSShtml */
 
+
+.dataTables_scrollHeadInner, .dataTable {
+    width: 100% !important;
+}
+

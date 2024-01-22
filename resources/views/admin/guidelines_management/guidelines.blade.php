@@ -35,11 +35,11 @@
                     </div>
                     <div class="card-body">
                         <table class="table table-striped table-bordered" id="guidelines-table">
-                            <thead>
+                            <thead style="width: 100%;">
                                 <tr>
                                     <th>Guidelines No.</th>
                                     <th>Guidelines Name</th>
-                                    <th>Created_at</th>
+                                    <th>Date Created</th>
                                     <th class="no-export text-center">Action</th>
                                 </tr>
                             </thead>
@@ -126,6 +126,8 @@
                     [10, 25, 50, "All"]
                 ],
                 "scrollY": "400px",
+                // "scrollX": true,
+                // "sScrollXInner": "99%",
                 "paging": true,
                 "lengthChange": true,
                 "dom": '<"d-flex justify-content-between align-items-center mb-5"lB<"d-flex align-items-center">f>t<"d-flex justify-content-end">p',
